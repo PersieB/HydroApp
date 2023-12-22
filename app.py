@@ -14,6 +14,14 @@ from datetime import datetime, timedelta
 import jwt
 import os
 import uuid
+from decouple import config
+
+# Load environment variables from .env file
+DB_NAME = config('DB_NAME')
+DB_USER = config('DB_USER')
+DB_PASSWORD = config('DB_PASSWORD')
+DB_HOST = config('DB_HOST')
+DB_PORT = config('DB_PORT')
 
 app = Flask(__name__)
 # Generate a secure random secret key
@@ -45,7 +53,8 @@ def signup():
 
             # Establishing the connection
             conn = psycopg2.connect(
-                database="hydroponics", user='postgres', password='hydro', host='127.0.0.1', port='5432'
+                database=DB_NAME, user=DB_USER, password=DB_PASSWORD,
+                host=DB_HOST, port=DB_PORT
             )
             conn.autocommit = True
 
@@ -99,7 +108,8 @@ def login():
 
             # Establishing the connection
             conn = psycopg2.connect(
-                database="hydroponics", user='postgres', password='hydro', host='127.0.0.1', port='5432'
+                database=DB_NAME, user=DB_USER, password=DB_PASSWORD,
+                host=DB_HOST, port=DB_PORT
             )
             conn.autocommit = True
 
@@ -127,7 +137,7 @@ def login():
 
     else:
         # show login page
-        return jsonify({'message': 'No submission yet'}), 201
+        return jsonify({'message': 'No login yet'}), 201
 
 
 if __name__ == '__main__':
